@@ -1,61 +1,29 @@
-import 'package:args/args.dart';
+import 'dart:io';
+import 'card_value.dart';
+import 'card.dart';
 
-const String version = '0.0.1';
+void main() {
+  List<Card> deck = randomDeck();
 
-ArgParser buildParser() {
-  return ArgParser()
-    ..addFlag(
-      'help',
-      abbr: 'h',
-      negatable: false,
-      help: 'Print this usage information.',
-    )
-    ..addFlag(
-      'verbose',
-      abbr: 'v',
-      negatable: false,
-      help: 'Show additional command output.',
-    )
-    ..addFlag(
-      'version',
-      negatable: false,
-      help: 'Print the tool version.',
-    );
+  print(deck);
 }
 
-void printUsage(ArgParser argParser) {
-  print('Usage: dart blackjack.dart <flags> [arguments]');
-  print(argParser.usage);
-}
+List<Card> randomDeck() {
+  List<Card> deck = [];
 
-void main(List<String> arguments) {
-  final ArgParser argParser = buildParser();
-  try {
-    final ArgResults results = argParser.parse(arguments);
-    bool verbose = false;
-
-    // Process the parsed arguments.
-    if (results.wasParsed('help')) {
-      printUsage(argParser);
-      return;
-    }
-    if (results.wasParsed('version')) {
-      print('blackjack version: $version');
-      return;
-    }
-    if (results.wasParsed('verbose')) {
-      verbose = true;
+  for (var suit in Suit.values) {
+    for (var i = 2; i <= 10; i++) {
+      deck.add(Card(suit, CardValuePip(i)));
     }
 
-    // Act on the arguments provided.
-    print('Positional arguments: ${results.rest}');
-    if (verbose) {
-      print('[VERBOSE] All arguments: ${results.arguments}');
-    }
-  } on FormatException catch (e) {
-    // Print usage information if an invalid argument was provided.
-    print(e.message);
-    print('');
-    printUsage(argParser);
+    deck.add(Card(suit, CardValueFace.jack));
+    deck.add(Card(suit, CardValueFace.quin));
+    deck.add(Card(suit, CardValueFace.king));
+
+    deck.add(Card(suit, CardValueAce()));
   }
+
+  deck.shuffle();
+
+  return deck;
 }
