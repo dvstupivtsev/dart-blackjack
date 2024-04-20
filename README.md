@@ -1,1 +1,3 @@
-A sample command-line application providing basic argument parsing with an entrypoint in `bin/`.
+# Blackjack.
+
+Игра blackjack в терминале на языке dart. Запускается из корня проекта в терминале командой `dart bin/main.dart`.
