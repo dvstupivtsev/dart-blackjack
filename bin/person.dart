@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'card.dart';
 import 'deck.dart';
 
@@ -23,16 +24,54 @@ abstract class Person {
   String handDescription() {
     return hand.join("; ");
   }
+}
 
-  String handWeightDescription() {
-    return handWeight().toString();
+class Gambler extends Person {
+  void move(Dealer dealer, Deck deck,
+      {required Function(Dealer, Gambler) printHands}) {
+    print("Ход Игрока (1 - Взять, 2 - Пас):");
+
+    final input = stdin.readLineSync();
+    print("---------");
+    print("");
+
+    if (input == "1") {
+      take(deck: deck);
+      printHands(dealer, this);
+
+      if (deck.isEmpty) {
+        return;
+      }
+
+      return move(dealer, deck, printHands: printHands);
+    } else if (input == "2") {
+      return;
+    } else {
+      print("Неправильный ввод.");
+      return move(dealer, deck, printHands: printHands);
+    }
   }
 }
 
-class Gambler extends Person {}
-
 class Dealer extends Person {
   var showingCards = false;
+
+  void move(Gambler gambler, Deck deck) {
+    if (deck.isEmpty) {
+      return;
+    }
+
+    if (handWeight() > 19) {
+      return;
+    } else {
+      if (handWeight() < gambler.handWeight()) {
+        take(deck: deck);
+        move(gambler, deck);
+      } else {
+        return;
+      }
+    }
+  }
 
   @override
   String handDescription() {
@@ -62,19 +101,5 @@ class Dealer extends Person {
     }
 
     return desc;
-  }
-
-  @override
-  String handWeightDescription() {
-    if (showingCards) {
-      return super.handWeightDescription();
-    } else {
-      var openCardWeight = hand.first.sumToHandWeight(0);
-      if (openCardWeight >= 10) {
-        return super.handWeightDescription();
-      } else {
-        return openCardWeight.toString();
-      }
-    }
   }
 }
