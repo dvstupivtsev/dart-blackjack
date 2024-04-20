@@ -1,4 +1,5 @@
 import 'card_value.dart';
+import 'color_output.dart';
 
 enum Suit {
   diamonds,
@@ -15,14 +16,6 @@ enum Suit {
       Suit.spades => greenColorString("♠")
     };
   }
-
-  String redColorString(String string) {
-    return "\x1B[31m$string\x1B[0m";
-  }
-
-  String greenColorString(String string) {
-    return "\x1B[32m$string\x1B[0m";
-  }
 }
 
 class Card {
@@ -33,10 +26,10 @@ class Card {
 
   @override
   String toString() {
-    return "$suit$value";
+    return "$value$suit";
   }
 
-  int sumToHand(int hand) {
-    return value.sumToHand(hand);
+  int sumToHandWeight(int handWeight) {
+    return value.sumToHandWeight(handWeight);
   }
 }

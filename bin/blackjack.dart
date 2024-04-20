@@ -2,9 +2,10 @@ import 'dart:io';
 import 'card_value.dart';
 import 'card.dart';
 import 'person.dart';
+import 'result.dart';
 
 void main() {
-  List<Card> deck = createDeck();
+  List<Card> deck = _createDeck();
   deck.shuffle();
 
   var gambler = Gambler();
@@ -16,16 +17,27 @@ void main() {
   dealer.take(deck);
   dealer.take(deck);
 
-  print("Your hand:");
-  print(gambler.handDescription());
-  print("Shown weight: ${gambler.handWeightDescription()}");
+  print("""
+Dealer hand:
+${dealer.handDescription()}
+  """);
 
-  print("\nDealer hand:");
-  print(dealer.handDescription());
-  print("Shown weight: ${dealer.handWeightDescription()}");
+  print("""
+Gambler hand:
+${gambler.handDescription()}
+  """);
+
+  var (result, resultDesc) = calculateGameResult(gambler, dealer);
+  if (resultDesc != null) {
+    print("$resultDesc");
+  }
+
+  if (result != GameResult.continueGame) {
+    return;
+  }
 }
 
-List<Card> createDeck() {
+List<Card> _createDeck() {
   List<Card> deck = [];
 
   for (var suit in Suit.values) {

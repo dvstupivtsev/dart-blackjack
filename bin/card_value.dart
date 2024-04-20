@@ -1,6 +1,6 @@
 abstract class CardValue {
   String description();
-  int sumToHand(int hand);
+  int sumToHandWeight(int handWeight);
 
   @override
   String toString() {
@@ -19,15 +19,15 @@ class CardValuePip extends CardValue {
   }
 
   @override
-  int sumToHand(int hand) {
-    return hand + value;
+  int sumToHandWeight(int handWeight) {
+    return handWeight + value;
   }
 }
 
 class CardValueFace extends CardValue {
-  static var jack = CardValueFace("Jack");
-  static var quin = CardValueFace("Quin");
-  static var king = CardValueFace("King");
+  static var jack = CardValueFace("J");
+  static var quin = CardValueFace("Q");
+  static var king = CardValueFace("K");
 
   String name;
 
@@ -39,19 +39,19 @@ class CardValueFace extends CardValue {
   }
 
   @override
-  int sumToHand(int hand) {
-    return hand + 10;
+  int sumToHandWeight(int handWeight) {
+    return handWeight + 10;
   }
 }
 
 class CardValueAce extends CardValue {
   @override
   String description() {
-    return "Ace";
+    return "A";
   }
 
   @override
-  int sumToHand(int hand) {
-    return hand < 21 ? hand + 11 : hand + 1;
+  int sumToHandWeight(int handWeight) {
+    return handWeight < 21 ? handWeight + 11 : handWeight + 1;
   }
 }

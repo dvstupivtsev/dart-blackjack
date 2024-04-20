@@ -12,38 +12,44 @@ abstract class Person {
   int handWeight() {
     var weight = 0;
     for (var card in hand) {
-      weight = card.sumToHand(weight);
+      weight = card.sumToHandWeight(weight);
     }
 
     return weight;
   }
 
-  String handDescription();
-  String handWeightDescription();
-}
-
-class Gambler extends Person {
-  @override
   String handDescription() {
     return hand.join("; ");
   }
 
-  @override
   String handWeightDescription() {
     return handWeight().toString();
   }
 }
 
+class Gambler extends Person {}
+
 class Dealer extends Person {
   @override
   String handDescription() {
-    var desc = "";
+    if (hand.length == 2) {
+      if (hand.first.sumToHandWeight(0) >= 10) {
+        return super.handDescription();
+      } else {
+        return _partialyHiddenHandDescription();
+      }
+    } else {
+      return super.handDescription();
+    }
+  }
 
+  String _partialyHiddenHandDescription() {
+    var desc = "";
     for (var i = 0; i < hand.length; i++) {
       if (i == 0) {
         desc += hand[0].toString();
       } else {
-        desc += "**";
+        desc += "-";
       }
 
       if (i < hand.length - 1) {
@@ -56,6 +62,15 @@ class Dealer extends Person {
 
   @override
   String handWeightDescription() {
-    return hand.first.sumToHand(0).toString();
+    if (hand.length == 2) {
+      var openCardWeight = hand.first.sumToHandWeight(0);
+      if (openCardWeight >= 10) {
+        return super.handWeightDescription();
+      } else {
+        return openCardWeight.toString();
+      }
+    } else {
+      return super.handWeightDescription();
+    }
   }
 }
