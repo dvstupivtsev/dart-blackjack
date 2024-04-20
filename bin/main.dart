@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'card_value.dart';
 import 'card.dart';
+import 'deck.dart';
 import 'person.dart';
 import 'color_output.dart';
 
@@ -11,22 +11,19 @@ void main() {
 
 class Balckjack {
   void start() {
-    List<Card> deck = _createDeck();
-    deck.shuffle();
+    var deck = Deck();
 
     var gambler = Gambler();
     var dealer = Dealer();
 
-    gambler.take(deck);
-    gambler.take(deck);
+    gambler.take(deck: deck);
+    gambler.take(deck: deck);
 
-    dealer.take(deck);
-    dealer.take(deck);
+    dealer.take(deck: deck);
+    dealer.take(deck: deck);
 
     while (true) {
       _printHands(dealer, gambler);
-
-      dealer.showingCards = true;
 
       if (gambler.handWeight() > 21 || dealer.handWeight() == 21) {
         print(redColorString("Дилер победил"));
@@ -39,6 +36,8 @@ class Balckjack {
       }
 
       _gamblersMove(dealer, gambler, deck);
+
+      dealer.showingCards = true;
 
       _printHands(dealer, gambler);
 
@@ -56,15 +55,16 @@ class Balckjack {
       } else if (dealer.handWeight() > gambler.handWeight()) {
         print(redColorString("Дилер победил"));
       } else if (dealer.handWeight() < gambler.handWeight()) {
-        print(redColorString("Дилер победил"));
+        print(greenColorString("Игрок победил"));
       } else {
         print(blueColorString("Ничья"));
       }
 
-      print("---------");
-
       break;
     }
+
+    print("---------");
+    print("");
 
     if (_restart()) {
       start();
@@ -72,27 +72,31 @@ class Balckjack {
   }
 
   bool _restart() {
-    print('Играть еще? (y/n)');
+    print("Играть еще? (y/n)");
 
     final input = stdin.readLineSync();
+    print("---------");
+    print("");
 
-    if (input == 'y') {
+    if (input == "y") {
       return true;
-    } else if (input == 'n') {
+    } else if (input == "n") {
       return false;
     } else {
-      print('Неправильный ввод.');
+      print("Неправильный ввод.");
       return _restart();
     }
   }
 
-  void _gamblersMove(Dealer dealer, Gambler gambler, List<Card> deck) {
-    print('Ход Игрока (1 - Взять, 2 - Пас):');
+  void _gamblersMove(Dealer dealer, Gambler gambler, Deck deck) {
+    print("Ход Игрока (1 - Взять, 2 - Пас):");
 
     final input = stdin.readLineSync();
+    print("---------");
+    print("");
 
-    if (input == '1') {
-      gambler.take(deck);
+    if (input == "1") {
+      gambler.take(deck: deck);
       _printHands(dealer, gambler);
 
       if (deck.isEmpty) {
@@ -100,46 +104,29 @@ class Balckjack {
       }
 
       return _gamblersMove(dealer, gambler, deck);
-    } else if (input == '2') {
+    } else if (input == "2") {
       return;
     } else {
-      print('Неправильный ввод.');
+      print("Неправильный ввод.");
       return _gamblersMove(dealer, gambler, deck);
     }
   }
 
-  void _dealersMove(Dealer dealer, Gambler gambler, List<Card> deck) {
+  void _dealersMove(Dealer dealer, Gambler gambler, Deck deck) {
     if (deck.isEmpty) {
       return;
     }
 
-    if (dealer.handWeight() >= 21) {
+    if (dealer.handWeight() > 19) {
       return;
     } else {
       if (dealer.handWeight() < gambler.handWeight()) {
-        dealer.take(deck);
+        dealer.take(deck: deck);
+        _dealersMove(dealer, gambler, deck);
       } else {
         return;
       }
     }
-  }
-
-  List<Card> _createDeck() {
-    List<Card> deck = [];
-
-    for (var suit in Suit.values) {
-      for (var i = 2; i <= 10; i++) {
-        deck.add(Card(suit, CardValuePip(i)));
-      }
-
-      deck.add(Card(suit, CardValueFace.jack));
-      deck.add(Card(suit, CardValueFace.quin));
-      deck.add(Card(suit, CardValueFace.king));
-
-      deck.add(Card(suit, CardValueAce()));
-    }
-
-    return deck;
   }
 
   void _printHands(Dealer dealer, Gambler gambler) {

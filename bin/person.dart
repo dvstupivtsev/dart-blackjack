@@ -1,10 +1,14 @@
 import 'card.dart';
+import 'deck.dart';
 
 abstract class Person {
   List<Card> hand = [];
 
-  void take(List<Card> fromDeck) {
-    hand.add(fromDeck.removeLast());
+  void take({required Deck deck}) {
+    var card = deck.take();
+    if (card != null) {
+      hand.add(card);
+    }
   }
 
   int handWeight() {
