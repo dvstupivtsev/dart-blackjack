@@ -10,10 +10,10 @@ enum Suit {
   @override
   String toString() {
     return switch (this) {
-      Suit.diamonds => redColorString("♦"),
+      Suit.diamonds => yellowColorString("♦"),
       Suit.clubs => greenColorString("♣"),
       Suit.hearts => redColorString("♥"),
-      Suit.spades => greenColorString("♠")
+      Suit.spades => blueColorString("♠")
     };
   }
 }

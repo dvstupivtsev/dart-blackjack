@@ -7,8 +7,6 @@ abstract class Person {
     hand.add(fromDeck.removeLast());
   }
 
-  void pass() {}
-
   int handWeight() {
     var weight = 0;
     for (var card in hand) {
@@ -30,16 +28,18 @@ abstract class Person {
 class Gambler extends Person {}
 
 class Dealer extends Person {
+  var showingCards = false;
+
   @override
   String handDescription() {
-    if (hand.length == 2) {
+    if (showingCards) {
+      return super.handDescription();
+    } else {
       if (hand.first.sumToHandWeight(0) >= 10) {
         return super.handDescription();
       } else {
         return _partialyHiddenHandDescription();
       }
-    } else {
-      return super.handDescription();
     }
   }
 
@@ -62,15 +62,15 @@ class Dealer extends Person {
 
   @override
   String handWeightDescription() {
-    if (hand.length == 2) {
+    if (showingCards) {
+      return super.handWeightDescription();
+    } else {
       var openCardWeight = hand.first.sumToHandWeight(0);
       if (openCardWeight >= 10) {
         return super.handWeightDescription();
       } else {
         return openCardWeight.toString();
       }
-    } else {
-      return super.handWeightDescription();
     }
   }
 }
