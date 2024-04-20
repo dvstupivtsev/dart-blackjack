@@ -1,14 +1,31 @@
 import 'dart:io';
 import 'card_value.dart';
 import 'card.dart';
+import 'person.dart';
 
 void main() {
-  List<Card> deck = randomDeck();
+  List<Card> deck = createDeck();
+  deck.shuffle();
 
-  print(deck);
+  var gambler = Gambler();
+  var dealer = Dealer();
+
+  gambler.take(deck);
+  gambler.take(deck);
+
+  dealer.take(deck);
+  dealer.take(deck);
+
+  print("Your hand:");
+  print(gambler.handDescription());
+  print("Shown weight: ${gambler.handWeightDescription()}");
+
+  print("\nDealer hand:");
+  print(dealer.handDescription());
+  print("Shown weight: ${dealer.handWeightDescription()}");
 }
 
-List<Card> randomDeck() {
+List<Card> createDeck() {
   List<Card> deck = [];
 
   for (var suit in Suit.values) {
@@ -22,8 +39,6 @@ List<Card> randomDeck() {
 
     deck.add(Card(suit, CardValueAce()));
   }
-
-  deck.shuffle();
 
   return deck;
 }

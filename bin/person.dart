@@ -1,26 +1,61 @@
 import 'card.dart';
 
 abstract class Person {
-  List<Card> hand;
+  List<Card> hand = [];
 
-  Person(this.hand);
+  void take(List<Card> fromDeck) {
+    hand.add(fromDeck.removeLast());
+  }
 
-  void take();
-  void pass();
+  void pass() {}
+
+  int handWeight() {
+    var weight = 0;
+    for (var card in hand) {
+      weight = card.sumToHand(weight);
+    }
+
+    return weight;
+  }
+
+  String handDescription();
+  String handWeightDescription();
 }
 
 class Gambler extends Person {
-  Gambler(super.hand);
+  @override
+  String handDescription() {
+    return hand.join("; ");
+  }
 
-  void take() {}
-
-  void pass() {}
+  @override
+  String handWeightDescription() {
+    return handWeight().toString();
+  }
 }
 
 class Dealer extends Person {
-  Dealer(super.hand);
+  @override
+  String handDescription() {
+    var desc = "";
 
-  void take() {}
+    for (var i = 0; i < hand.length; i++) {
+      if (i == 0) {
+        desc += hand[0].toString();
+      } else {
+        desc += "**";
+      }
 
-  void pass() {}
+      if (i < hand.length - 1) {
+        desc += "; ";
+      }
+    }
+
+    return desc;
+  }
+
+  @override
+  String handWeightDescription() {
+    return hand.first.sumToHand(0).toString();
+  }
 }
