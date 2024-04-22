@@ -8,14 +8,10 @@ class CardValuePip extends CardValue {
   CardValuePip(this.value);
 
   @override
-  String toString() {
-    return value.toString();
-  }
+  String toString() => value.toString();
 
   @override
-  int sumToHandWeight(int handWeight) {
-    return handWeight + value;
-  }
+  int sumToHandWeight(int handWeight) => handWeight + value;
 }
 
 class CardValueFace extends CardValue {
@@ -28,24 +24,17 @@ class CardValueFace extends CardValue {
   CardValueFace(this.name);
 
   @override
-  String toString() {
-    return name;
-  }
+  String toString() => name;
 
   @override
-  int sumToHandWeight(int handWeight) {
-    return handWeight + 10;
-  }
+  int sumToHandWeight(int handWeight) => handWeight + 10;
 }
 
 class CardValueAce extends CardValue {
   @override
-  String toString() {
-    return "A";
-  }
+  String toString() => "A";
 
   @override
-  int sumToHandWeight(int handWeight) {
-    return handWeight < 21 ? handWeight + 11 : handWeight + 1;
-  }
+  int sumToHandWeight(int handWeight) =>
+      handWeight < 21 ? handWeight + 11 : handWeight + 1;
 }

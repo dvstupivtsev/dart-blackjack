@@ -89,8 +89,8 @@ class Balckjack {
 
   void _printHands(Dealer dealer, Gambler gambler) {
     print("""
-Дилер: ${dealer.handDescription()}
-Игрок: ${gambler.handDescription()}
+Дилер: ${dealer.handDescription}
+Игрок: ${gambler.handDescription}
 ---------
     """);
   }

@@ -22,7 +22,5 @@ class Deck {
     _cards.shuffle();
   }
 
-  Card? take() {
-    return _cards.isNotEmpty ? _cards.removeLast() : null;
-  }
+  Card? take() => _cards.isNotEmpty ? _cards.removeLast() : null;
 }

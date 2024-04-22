@@ -21,9 +21,7 @@ abstract class Person {
     return weight;
   }
 
-  String handDescription() {
-    return hand.join("; ");
-  }
+  String get handDescription => hand.join("; ");
 }
 
 class Gambler extends Person {
@@ -74,12 +72,12 @@ class Dealer extends Person {
   }
 
   @override
-  String handDescription() {
+  String get handDescription {
     if (showingCards) {
-      return super.handDescription();
+      return super.handDescription;
     } else {
       if (hand.first.sumToHandWeight(0) >= 10) {
-        return super.handDescription();
+        return super.handDescription;
       } else {
         return _partialyHiddenHandDescription();
       }

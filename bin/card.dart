@@ -25,11 +25,7 @@ class Card {
   Card(this.suit, this.value);
 
   @override
-  String toString() {
-    return "$value$suit";
-  }
+  String toString() => "$value$suit";
 
-  int sumToHandWeight(int handWeight) {
-    return value.sumToHandWeight(handWeight);
-  }
+  int sumToHandWeight(int handWeight) => value.sumToHandWeight(handWeight);
 }
