@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'card.dart';
 import 'deck.dart';
+import 'package:collection/collection.dart';
 
 abstract class Person {
   List<Card> hand = [];
@@ -12,14 +13,8 @@ abstract class Person {
     }
   }
 
-  int handWeight() {
-    var weight = 0;
-    for (var card in hand) {
-      weight = card.sumToHandWeight(weight);
-    }
-
-    return weight;
-  }
+  int handWeight() =>
+      hand.fold(0, (weight, card) => card.sumToHandWeight(weight));
 
   String get handDescription => hand.join("; ");
 }
@@ -84,20 +79,7 @@ class Dealer extends Person {
     }
   }
 
-  String _partialyHiddenHandDescription() {
-    var desc = "";
-    for (var i = 0; i < hand.length; i++) {
-      if (i == 0) {
-        desc += hand[0].toString();
-      } else {
-        desc += "-";
-      }
-
-      if (i < hand.length - 1) {
-        desc += "; ";
-      }
-    }
-
-    return desc;
-  }
+  String _partialyHiddenHandDescription() => hand
+      .mapIndexed((index, element) => index == 0 ? element.toString() : "-")
+      .join("; ");
 }
