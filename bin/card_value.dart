@@ -1,11 +1,5 @@
 abstract class CardValue {
-  String description();
   int sumToHandWeight(int handWeight);
-
-  @override
-  String toString() {
-    return description();
-  }
 }
 
 class CardValuePip extends CardValue {
@@ -14,7 +8,7 @@ class CardValuePip extends CardValue {
   CardValuePip(this.value);
 
   @override
-  String description() {
+  String toString() {
     return value.toString();
   }
 
@@ -34,7 +28,7 @@ class CardValueFace extends CardValue {
   CardValueFace(this.name);
 
   @override
-  String description() {
+  String toString() {
     return name;
   }
 
@@ -46,7 +40,7 @@ class CardValueFace extends CardValue {
 
 class CardValueAce extends CardValue {
   @override
-  String description() {
+  String toString() {
     return "A";
   }
 
