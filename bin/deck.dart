@@ -12,9 +12,9 @@ class Deck {
         _cards.add(Card(suit, CardValuePip(i)));
       }
 
-      _cards.add(Card(suit, CardValueFace.jack));
-      _cards.add(Card(suit, CardValueFace.quin));
-      _cards.add(Card(suit, CardValueFace.king));
+      _cards.add(Card(suit, CardValueFace.jack()));
+      _cards.add(Card(suit, CardValueFace.quin()));
+      _cards.add(Card(suit, CardValueFace.king()));
 
       _cards.add(Card(suit, CardValueAce()));
     }

@@ -15,13 +15,11 @@ class CardValuePip extends CardValue {
 }
 
 class CardValueFace extends CardValue {
-  static var jack = CardValueFace("J");
-  static var quin = CardValueFace("Q");
-  static var king = CardValueFace("K");
-
   String name;
 
-  CardValueFace(this.name);
+  CardValueFace.jack() : name = "J";
+  CardValueFace.quin() : name = "Q";
+  CardValueFace.king() : name = "K";
 
   @override
   String toString() => name;
